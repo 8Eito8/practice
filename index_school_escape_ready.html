@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>閉じ込められた学校からの脱出</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+    #story { margin-bottom: 20px; }
+    #storyImage { max-width: 100%; margin-bottom: 20px; }
+    .choice { margin: 10px 0; display: block; }
+    button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+<h1>閉じ込められた学校からの脱出</h1>
+<img id="storyImage" src="start.png" alt="Story Image">
+<div id="story"></div>
+<div id="choices"></div>
+
+<script>
+const storyData = {
+  start: {
+    text: "放課後の学校。あなたは数人の友達と校内に残っていた。夕暮れ時、ふと気づくと、正門は固く閉ざされ、誰も外に出られない。携帯も圏外。校舎の中から、かすかに『カツ、カツ、カツ…』という足音が聞こえる。どうする？",
+    choices: {
+      A: "正面玄関から強行突破を試みる",
+      B: "裏口や非常口を探す"
+    }
+  },
+  A: {
+    text: "正面玄関へ駆け寄る。しかし、玄関は異様なほどに固く閉ざされ、開く気配がない。押すと校舎に警報音のような音が響き渡る。廊下の奥から、誰かがこちらに向かって走ってくる気配がする…どうする？",
+    choices: {
+      A: "音のする方へ向かう",
+      B: "音を無視して別の道を進む"
+    }
+  },
+  B: {
+    text: "裏口や非常口を探して校舎の奥へ向かう。薄暗い倉庫の前でドアがわずかに開いている。中から低い音が聞こえる。背後では別の場所から足音が近づいてくる…どうする？",
+    choices: {
+      A: "音のする方へ向かう",
+      B: "音を無視して別の道を進む"
+    }
+  },
+  AA: {
+    text: "音のする方へ進むと、それは人の話し声ではなく、何かを引きずるような音だった。影に何かが見える…どうする？",
+    choices: {
+      A: "声のする扉に進む",
+      B: "声を無視して別の扉を選ぶ"
+    }
+  },
+  AB: {
+    text: "音を無視して別の道へ。体育館裏へ続く細い通路を発見。そこには二つの扉が…どうする？",
+    choices: {
+      A: "声のする扉に進む",
+      B: "声を無視して別の扉を選ぶ"
+    }
+  },
+  BA: {
+    text: "音のする倉庫へ近づくと、何かが動いた。息を潜めて逃げ道を探す…どうする？",
+    choices: {
+      A: "声のする扉に進む",
+      B: "声を無視して別の扉を選ぶ"
+    }
+  },
+  BB: {
+    text: "音を無視して進み、別の廊下に出た。奇妙に静かな空間で二つの扉を発見…どうする？",
+    choices: {
+      A: "声のする扉に進む",
+      B: "声を無視して別の扉を選ぶ"
+    }
+  },
+  AAA: { text: "声に従って脱出成功！しかし外の世界は異様な静寂に包まれていた…。", choices: {} },
+  AAB: { text: "声を無視して逃げ、友達と再会して無事脱出成功！", choices: {} },
+  ABA: { text: "教室に潜んでいた『何か』に見つかり、逃げ延びるも後遺症を負う…。", choices: {} },
+  ABB: { text: "単独で学校を脱出するが、外には誰もいなかった…。", choices: {} },
+  BAA: { text: "倉庫の隠し扉から脱出成功。しかし出口の景色は歪んでいた…。", choices: {} },
+  BAB: { text: "異次元の空間に引きずり込まれるバッドエンド…。", choices: {} },
+  BBA: { text: "記憶を失い、学校の一部となってしまった…。", choices: {} },
+  BBB: { text: "誰もいない世界に彷徨い込んでしまう孤独エンド…。", choices: {} }
+};
+
+let currentPath = "start";
+
+function showStory() {
+  const story = storyData[currentPath];
+  document.getElementById("story").innerText = story.text;
+  document.getElementById("storyImage").src = currentPath + ".png";
+  const choicesDiv = document.getElementById("choices");
+  choicesDiv.innerHTML = "";
+
+  for (const key in story.choices) {
+    const btn = document.createElement("button");
+    btn.innerText = story.choices[key];
+    btn.className = "choice";
+    btn.onclick = () => {
+      currentPath = (currentPath === "start" ? "" : currentPath) + key;
+      showStory();
+    };
+    choicesDiv.appendChild(btn);
+  }
+
+  if (Object.keys(story.choices).length === 0) {
+    const retryBtn = document.createElement("button");
+    retryBtn.innerText = "もう一度プレイ";
+    retryBtn.onclick = () => {
+      currentPath = "start";
+      showStory();
+    };
+    choicesDiv.appendChild(retryBtn);
+  }
+}
+
+showStory();
+</script>
+
+</body>
+</html>
